@@ -1,0 +1,6 @@
+*.zip
+*.docx
+__pycache__/
+*.ps1
+*.scpt
+docxedit_tmp_script.*
