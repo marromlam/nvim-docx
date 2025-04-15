@@ -1,6 +1,12 @@
-# nvim-docx-edit
+# nvim-docx
 
 Edit `.docx` files directly from Neovim by modifying their XML, and have changes live-reloaded into Microsoft Word.
+
+
+
+https://github.com/user-attachments/assets/342cda67-1697-4e60-91f6-c59629669f97
+
+
 
 ## ✨ Features
 
@@ -30,7 +36,3 @@ Edit `.docx` files directly from Neovim by modifying their XML, and have changes
 - `zip` and `unzip` in your system PATH
 - Microsoft Word installed
 - PowerShell (Windows) or AppleScript (macOS)
-
-## 📝 License
-
-MIT# nvim-docx
