@@ -4,7 +4,10 @@ Edit `.docx` files directly from Neovim by modifying their XML, and have changes
 
 
 
-https://github.com/user-attachments/assets/342cda67-1697-4e60-91f6-c59629669f97
+
+https://github.com/user-attachments/assets/2b777285-b506-4a4d-97bf-8f30627c196f
+
+
 
 
 
