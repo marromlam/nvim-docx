@@ -1,0 +1,14 @@
+docxedit-api	docxedit.txt	/*docxedit-api*
+docxedit-configuration	docxedit.txt	/*docxedit-configuration*
+docxedit-contents	docxedit.txt	/*docxedit-contents*
+docxedit-healthcheck	docxedit.txt	/*docxedit-healthcheck*
+docxedit-intro	docxedit.txt	/*docxedit-intro*
+docxedit-quick-start	docxedit.txt	/*docxedit-quick-start*
+docxedit-requirements	docxedit.txt	/*docxedit-requirements*
+docxedit-troubleshooting	docxedit.txt	/*docxedit-troubleshooting*
+docxedit.reload_docx()	docxedit.txt	/*docxedit.reload_docx()*
+docxedit.setup()	docxedit.txt	/*docxedit.setup()*
+docxedit.start_watch()	docxedit.txt	/*docxedit.start_watch()*
+docxedit.stop_watch()	docxedit.txt	/*docxedit.stop_watch()*
+docxedit.txt	docxedit.txt	/*docxedit.txt*
+docxedit.watch_edit()	docxedit.txt	/*docxedit.watch_edit()*

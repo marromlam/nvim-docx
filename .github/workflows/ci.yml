@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    env:
+      XDG_CACHE_HOME: ${{ runner.temp }}/xdg-cache
+      XDG_STATE_HOME: ${{ runner.temp }}/xdg-state
+      XDG_DATA_HOME: ${{ runner.temp }}/xdg-data
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Neovim
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y neovim
+
+      - name: Prepare XDG dirs
+        run: |
+          mkdir -p "$XDG_CACHE_HOME" "$XDG_STATE_HOME" "$XDG_DATA_HOME"
+
+      - name: Run tests
+        run: |
+          nvim --headless -u NONE -i NONE -l test/test_docxedit.lua
+          nvim --headless -u NONE -i NONE -l test/integration_test.lua

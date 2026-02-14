@@ -1,0 +1,137 @@
+*docxedit.txt*  nvim-docx help file
+
+==============================================================================
+CONTENTS                                                  *docxedit-contents*
+
+1. Introduction ................................................ |docxedit-intro|
+2. Requirements .......................................... |docxedit-requirements|
+3. Quick Start ........................................... |docxedit-quick-start|
+4. Configuration ..................................... |docxedit-configuration|
+5. Lua API .................................................... |docxedit-api|
+6. Healthcheck .......................................... |docxedit-healthcheck|
+7. Troubleshooting .................................... |docxedit-troubleshooting|
+
+==============================================================================
+INTRODUCTION                                                   *docxedit-intro*
+
+nvim-docx lets you edit DOCX XML from inside Neovim and reload the document in
+Microsoft Word.
+
+This plugin works on buffers opened through |zip.vim|, for example:
+>
+  :edit zipfile:///absolute/path/to/file.docx::word/document.xml
+<
+Main behavior:
+  - reload DOCX in Word (macOS/Windows)
+  - watch file changes and refresh the XML buffer
+  - run `xmlformat` when available
+
+==============================================================================
+REQUIREMENTS                                             *docxedit-requirements*
+
+Required:
+  - `zip`
+  - `unzip`
+  - Microsoft Word
+  - `powershell` (Windows) OR `osascript` (macOS)
+
+Optional:
+  - `xmlformat` (recommended, Word XML is usually one long line)
+
+==============================================================================
+QUICK START                                               *docxedit-quick-start*
+
+Open the document XML:
+>
+  :edit zipfile:///absolute/path/to/file.docx::word/document.xml
+<
+Add keymaps:
+>
+  vim.keymap.set({ 'n', 'i' }, '<leader>X', function()
+    require('docxedit').start_watch()
+  end, { desc = 'Reload MS Word' })
+
+  vim.keymap.set('n', '<leader>x', function()
+    require('docxedit').stop_watch()
+  end, { desc = 'Stop docx watch' })
+<
+==============================================================================
+CONFIGURATION                                             *docxedit-configuration*
+
+Use `setup()` to override defaults:
+>
+  require('docxedit').setup({
+    reload_debounce_ms = 150,
+    auto_format = true,
+    debug = false,
+    cleanup_scripts_on_stop = true,
+    cleanup_stale_scripts_on_load = true,
+    stale_script_ttl_seconds = 86400,
+  })
+<
+Defaults:
+  - `reload_debounce_ms`: milliseconds to coalesce repeated fs events.
+  - `auto_format`: run `xmlformat` on refresh when executable is available.
+  - `debug`: enable debug notifications.
+  - `cleanup_scripts_on_stop`: remove generated reload scripts on stop/exit.
+  - `cleanup_stale_scripts_on_load`: remove old temp scripts when module loads/setup runs.
+  - `stale_script_ttl_seconds`: age threshold for stale script cleanup.
+
+==============================================================================
+LUA API                                                           *docxedit-api*
+
+Require the module:
+>
+  local docxedit = require('docxedit')
+<
+                                                         *docxedit.start_watch()*
+docxedit.start_watch([{bufname}])
+  Writes the current buffer, reloads Word, and starts file watching.
+  Returns `true` on success, `false` if write failed.
+
+                                                         *docxedit.stop_watch()*
+docxedit.stop_watch([{bufname-or-bufnr}])
+  Stops an active watcher.
+  Returns `true` if a watcher was stopped, otherwise `false`.
+
+                                                         *docxedit.reload_docx()*
+docxedit.reload_docx([{bufname}])
+  Reloads the DOCX in Word using the path from a `zipfile://...` buffer.
+  Shows a warning if called on a non-zipfile buffer.
+
+                                                          *docxedit.watch_edit()*
+docxedit.watch_edit([{bufname}])
+  Starts watching the DOCX file path from a `zipfile://...` buffer and refreshes
+  the XML buffer on change.
+
+                                                             *docxedit.setup()*
+docxedit.setup([{opts}])
+  Applies configuration overrides. See |docxedit-configuration|.
+
+==============================================================================
+HEALTHCHECK                                               *docxedit-healthcheck*
+
+Run:
+>
+  :checkhealth docxedit
+<
+The healthcheck validates required tools, optional `xmlformat`, and OS-specific
+Word reload support.
+
+==============================================================================
+TROUBLESHOOTING                                       *docxedit-troubleshooting*
+
+`reload_docx expects a zipfile buffer path`
+  Open the buffer through zip.vim:
+>
+  :edit zipfile:///path/to/file.docx::word/document.xml
+<
+Word does not reload on macOS
+  Check `:checkhealth docxedit`.
+  Ensure your terminal/Neovim has macOS Automation permissions.
+
+Formatting does not happen
+  Install `xmlformat` (optional dependency).
+
+------------------------------------------------------------------------------
+vim:tw=78:ts=8:noet:ft=help:norl:
